@@ -29,6 +29,13 @@ router.get(
     ActivityController.getAllByTypeAndUser
 );
 
+// Get all user activity with pagination
+router.get(
+    "/pagination/:take([0-9]+)/:skip([0-9]+)",
+    [checkJwt, checkRole(["USER", "ADMIN"])],
+    ActivityController.getAllByUserWithPagination
+);
+
 //Create a new activity
 router.post("/", [checkJwt, checkRole(["USER","ADMIN"])], ActivityController.newActivity);
 

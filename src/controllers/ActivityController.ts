@@ -56,6 +56,27 @@ static getAllByUserId = async (req: Request, res: Response) => {
     }
   };
 
+static getAllByUserWithPagination = async (req: Request, res: Response) => {
+  //Get ID from JWT
+  const idOfUser = res.locals.jwtPayload.userId;
+  const take = req.params.take || 10;
+  const skip = req.params.skip || 0;
+
+  //Get the activity from database
+  const activityRepo = getRepository(Activity);
+  try {
+    const activity = await activityRepo.findAndCount({
+      where: [
+        { userId: idOfUser }
+      ],
+      take: take,
+      skip: skip
+    });
+    res.send(activity);
+  } catch (error) {
+    res.status(404).send("Activity not found");
+  }
+};
 
 static getAllByTypeAndUser = async (req: Request, res: Response) => {
   const idOfUser = res.locals.jwtPayload.userId;
@@ -72,7 +93,7 @@ static getAllByTypeAndUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(404).send("Activity not found");
   }
-}
+};
 
 static newActivity = async (req: Request, res: Response) => {
   //Get parameters from the body
@@ -254,6 +275,6 @@ static getActivityNameBasedOnType(type) : string {
   return value;
 }
 
-};
+}
 
 export default ActivityController;
