@@ -3,7 +3,7 @@
 Steps to run this project:
 
 1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
+2. Setup database credentials inside `ormconfig.json` file
 3. Run `npm start` command TypeORM will take care about DB structure init.
 
 4. (optional) ADMIN & USER MIGRATION for start without SQL import: `npm run migration:run`
